@@ -7,7 +7,6 @@ def gcdRecur(a, b):
     # Your code here
     if b == 0:
         return a
-    print('Hola')
     return gcdRecur(min(a, b), max(a, b) % min(a, b))
 
 
