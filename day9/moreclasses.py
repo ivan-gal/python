@@ -101,9 +101,76 @@ print(bigD.speak("wooo don't be a David"))
 
 Louis.setBirthday(20, 12, 1930)
 
-print(bigD.getClass())
 
-print(isStudent(bigD))
+class Grades (object):
+    def __init__(self):
+        self.students = []
+        self.grades = {}
+        self.isSorted = True
+    # """Assumes grade is a float
+    # Add Gracde to the list of grades for student"""
 
-print(jose_fernando.speak('las matematicas'))
-print(jose_fernando.lecture('matematicas'))
+    def addStudent(self, student):
+        if student in self.students:
+            raise ValueError('Duplicate')
+        self.students.append(student)
+        self.grades[student.getIdNum()] = []
+        self.isSorted = False
+
+    def addGrade(self, student, grade):
+        try:
+            self.grades[student.getIdNum()].append(grade)
+        except KeyError:
+            raise ValueError('Student not in grade book')
+
+    def getGrades(self, student):
+        try:
+            return self.grades[student.getIdNum()][:]
+        except:
+            raise ValueError('Student not in grade book')
+
+    def allStudents(self):
+        if not self.isSorted:
+            self.students.sort()
+            self.isSorted = True
+            print(self.students)
+        return self.students[:]
+
+
+def gradeReport(course):
+    report = []
+    for s in course.allStudents():
+        tot = 0.0
+        numGrades = 0
+        for g in course.getGrades(s):
+            tot += g
+            numGrades += 1
+        try:
+            average = tot/numGrades
+            report.append(str(s) + "\' mean grade is " + str(average))
+
+        except ZeroDivisionError:
+            report.append(str(s) + ' has no grades')
+    return '\n'.join(report)
+
+
+year20 = Grades()
+
+year20.addStudent(bigD)
+year20.addStudent(lowerL)
+year20.addStudent(mattD)
+
+year20.addGrade(bigD, 83.5)
+year20.addGrade(bigD, 32.5)
+year20.addGrade(bigD, 42.5)
+
+year20.addGrade(lowerL, 83.5)
+year20.addGrade(lowerL, 32.5)
+year20.addGrade(lowerL, 42.5)
+
+
+year20.addGrade(mattD, 83.5)
+year20.addGrade(mattD, 32.5)
+year20.addGrade(mattD, 42.5)
+
+print(gradeReport(year20))
