@@ -46,7 +46,11 @@ class MITPerson(Person):
         return (self.getLastName() + " says : " + word)
 
 
-class UG(MITPerson):
+class Student(MITPerson):
+    pass
+
+
+class UG(Student):
     def __init__(self, name, classYear):
         MITPerson.__init__(self, name)
         self.year = classYear
@@ -58,16 +62,35 @@ class UG(MITPerson):
         return MITPerson.speak(self, "Dude, " + word)
 
 
-class Grad(MITPerson):
+class Grad(Student):
+    pass
+
+
+class TransferStudent(Student):
     pass
 
 
 def isStudent(obj):
-    return isinstance(obj, UG) or isinstance(obj, Grad)
+    return isinstance(obj, Student)
+
+
+class Professor(MITPerson):
+    def __init__(self, name, department):
+        MITPerson.__init__(self, name)
+        self.department = department
+
+    def speak(self, word):
+        new = 'In course ' + self.department + ' we say '
+        return MITPerson.speak(self, new + word)
+
+    def lecture(self, topic):
+        return self.speak('It is obvious that ' + topic)
 
 
 Louis = MITPerson('Fernando Gomez')
 joseL = MITPerson('Fuck you man')
+
+jose_fernando = Professor('Jose Fernando', 'Matematicas')
 
 mattD = UG("Matt Damon", 2020)
 lowerL = UG("Lower Leis", 2019)
@@ -78,4 +101,9 @@ print(bigD.speak("wooo don't be a David"))
 
 Louis.setBirthday(20, 12, 1930)
 
-print(joseL.speak("Hey mudafucka"))
+print(bigD.getClass())
+
+print(isStudent(bigD))
+
+print(jose_fernando.speak('las matematicas'))
+print(jose_fernando.lecture('matematicas'))
